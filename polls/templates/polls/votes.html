@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>{{ question.text }}</p>
+<form method="POST" action="">
+    {% csrf_token %}
+    {% for i in choice %}
+        <input type="radio" value="{{ i.id }}" name="choice">
+        {{ i.choice_txt }}<br>
+    {% endfor %}
+    <button type="submit">submit</button>
+</form>
+
+</body>
+</html>
