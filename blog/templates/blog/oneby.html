@@ -1,0 +1,41 @@
+{% extends 'blog/BASE.html' %}
+
+{%  load static %}
+
+{%  block title %} post.content {% endblock %}
+
+{%  block body %}
+    <div id="cover-detail" style="background-image: url('/media/{{ po.img }}');">
+        <h1 id="cover-text">{{ po.title }}</h1>
+        <h3 id="cover-subtext">{{ po.content }}</h3>
+    </div>
+
+    <div id="post-content">
+    <div class="post-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>{{ po.title }}</h1>
+                    <br>
+                    <p>
+                        {{ po.content }}
+                    </p>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="footer-data">
+                <p><a href="">GitHub</a> | <a href="">LinkedIn</a</p>
+                <p> Created by Chirath R, FOSS@Amrita</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{%  endblock %}

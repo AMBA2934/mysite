@@ -1,0 +1,41 @@
+{% extends 'blog/base.html' %}
+{%  load static %}
+
+{%  block title %} post.content {% endblock %}
+
+{%  block body %}
+    <div id="cover-detail" style="background-image: url('/media/{{ post.img }}');">
+        <h1 id="cover-text">{{ post.title }}</h1>
+        <h3 id="cover-subtext">{{ post.content }}</h3>
+    </div>
+
+    <div id="post-content">
+    <div class="post-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>{{ post.title }}</h1>
+                    <br>
+                    <p>
+                        {{ post.content }}
+                        <a href="{% url 'del' post.id %}"><button>delete</button></a>
+                    </p>
+                    <p>{{ post.user.username }}</p>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="footer-data">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{%  endblock %}
