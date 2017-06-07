@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import date
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
@@ -24,7 +25,7 @@ def post_detail(request, pk):
 
     if request.method == "POST":
         comment_text = request.POST['comment_text']
-        co =Comment(comment_text=comment_text, post=post, )
+        co =Comment(comment_text=comment_text, post=post,date=date )
         co.save()
         return redirect('post',post.id)
 
@@ -87,5 +88,56 @@ def del_post(request, id):
             post.delete()
             return redirect('home')
     raise PermissionDenied
+
+def add_comment(request,pk):
+    post = Post.objects.get(id=int(pk))
+    if request.method == "POST":
+        comment_text = request.POST['comment_text']
+        user=User.objects.get(username=request.user.username)
+        new_com=Comment(comment_text=comment_text,user=user,post=post)
+        new_com.save()
+        return redirect('home')
+    else:
+        template_name='blog/add_com.html'
+        context={}
+        return render(request,template_name,context)
+
+def del_comment(request, id):
+    if Comment.objects.get(id=id) is not None:
+        com=Comment.objects.get(id=id)
+        if com.user.username == request.user.username:
+            com.delete()
+            return redirect('home')
+    raise PermissionDenied
+
+def sign_up(request):
+    template = 'registration/signup.html'
+    context={}
+    if request.method == 'POST':
+        firstname = request.POST['firstname']
+        lastname =request.POST['lastname']
+        email=request.POST['email']
+
+        username=request.POST['username']
+        password1=request.POST['password1']
+        password2=request.POST['password2']
+
+        user = User.objects.filter(email=email)
+        if len(user) != 0:
+            context['errors'] = "Email is already taken"
+            return render(request,template,context)
+
+        user = User.objects.filter(username=username)
+        if len(user) != 0:
+            context['errors'] = "username is  already taken"
+            return render(request,template,context)
+
+        if password1 == password2:
+            user = User(first_name=firstname,last_name=lastname,email=email,username=username)
+            user.set_password(password1)
+            user.save()
+            return redirect('login')
+
+    return render(request,template,context)
 
 
